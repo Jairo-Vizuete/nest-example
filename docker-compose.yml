@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: demoapp
+    restart: always
+    build: .
+      # dockerfile: Dockerfile
+      # context: .
+    ports:
+      - '3001:3000'
+    environment:
+      # DATABASE_URL: postgres://root:root@postgres:5432/users
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: users
+      DB_USER: root
+      DB_PASSWORD: root
+    links:
+      - postgres
+
+  postgres:
+    container_name: demodb
+    image: postgres
+    environment:
+      - POSTGRES_DB=users
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - '5432:5432'
